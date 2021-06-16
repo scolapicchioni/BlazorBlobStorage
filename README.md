@@ -36,7 +36,38 @@ az storage container create --account-name simodemo01sa --name demo --auth-mode 
 - Go to the Upload page
 - Select an image and upload it
 
-## Run the application from Azure
+## Deploy
+
+## Option 1
+
+```
+gitrepo=https://github.com/scolapicchioni/BlazorBlobStorage
+webappname=simodemo$RANDOM
+
+# Create an App Service plan in `FREE` tier.
+az appservice plan create --name $webappname --resource-group simodemo01-rg --sku FREE
+
+# Create a web app.
+az webapp create --name $webappname --resource-group simodemo01-rg --plan $webappname
+
+# Deploy code from a public GitHub repository. 
+az webapp deployment source config --name $webappname --resource-group myResourceGroup --repo-url $gitrepo --branch master --manual-integration
+
+# Copy the result of the following command into a browser to see the web app.
+echo http://$webappname.azurewebsites.net
+
+# Assign identity to webapp
+az webapp identity assign --name $webappname --resource-group simodemo01-rg
+
+# Assign role to app
+spID=$(az resource list -n $webappname --query [*].identity.principalId --out tsv)
+
+storageId=$(az storage account show -n simodemo01sa -g simodemo01-rg --query id --out tsv)
+
+az role assignment create --assignee $spID --role 'Storage Blob Data Contributor' --scope $storageId
+```
+
+## Alternative
 
 In the Azure CLI, type the following commands
 
@@ -45,6 +76,6 @@ mkdir demo
 cd $HOME/demo
 
 git clone https://github.com/scolapicchioni/BlazorBlobStorage.git
-cd BlazorBlobStorage
+cd BlazorBlobStorage/BlazorBlobStorage/Server/
 az webapp up --resource-group simodemo01-rg --runtime "DOTNET|5.0" --location westeurope --sku B1 --name simodemo01wa --launch-browser --logs
 ```
