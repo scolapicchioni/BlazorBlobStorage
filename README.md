@@ -45,5 +45,6 @@ mkdir demo
 cd $HOME/demo
 
 git clone https://github.com/scolapicchioni/BlazorBlobStorage.git
+cd BlazorBlobStorage
 az webapp up --resource-group simodemo01-rg --runtime "DOTNET|5.0" --location westeurope --sku B1 --name simodemo01wa --launch-browser --logs
 ```
