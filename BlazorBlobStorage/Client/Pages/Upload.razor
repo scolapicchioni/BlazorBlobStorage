@@ -1,0 +1,41 @@
+﻿@page "/upload"
+@inject HttpClient Http
+@using BlazorBlobStorage.Shared
+<h3>Upload</h3>
+
+
+<InputFile OnChange="@LoadFiles" />
+
+<p>@Message</p>
+@code {
+    public string Message { get; set; }
+    public async Task LoadFiles(InputFileChangeEventArgs args) {
+        using var content = new MultipartFormDataContent();
+        using var fileContent = new StreamContent(args.File.OpenReadStream());
+        fileContent.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("form-data") {
+            Name = "file",
+            FileName = args.File.Name,
+            FileNameStar = args.File.Name
+        };
+        fileContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(args.File.ContentType);
+
+        //content.Add(
+        //content: fileContent,
+        //name: "\"file\"",
+        //fileName: args.File.Name);
+
+        content.Add(fileContent);
+
+        try {
+            Message = "";
+            var response = await Http.PostAsync("/Filesave", content);
+
+            Message = (await response.Content.ReadFromJsonAsync<UploadReply>()).Message;
+            //var newUploadResults = await response.Content.ReadFromJsonAsync<IList<UploadResult>>();
+
+            //uploadResults = uploadResults.Concat(newUploadResults).ToList();
+        } catch (Exception ex) {
+            Message = ex.Message;
+        }
+    }
+}

@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Azure.Extensions.AspNetCore.Configuration.Secrets" Version="1.2.1" />
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.9.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="5.0.7" />
+    <PackageReference Include="Microsoft.Extensions.Azure" Version="1.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\BlazorBlobStorage.Server.Core\BlazorBlobStorage.Server.Core.csproj" />
+    <ProjectReference Include="..\..\BlazorBlobStorage.Server.Infrastructure\BlazorBlobStorage.Server.Infrastructure.csproj" />
+    <ProjectReference Include="..\Client\BlazorBlobStorage.Client.csproj" />
+    <ProjectReference Include="..\Shared\BlazorBlobStorage.Shared.csproj" />
+  </ItemGroup>
+
+
+</Project>
