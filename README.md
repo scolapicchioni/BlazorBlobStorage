@@ -49,7 +49,7 @@ az appservice plan create --name $webappname --resource-group $resourcegroup --s
 az webapp create --name $webappname --resource-group $resourcegroup --plan $webappname
 
 # Deploy code from a public GitHub repository. 
-az webapp deployment source config --name $webappname --resource-group $resourcegroup --repo-url $gitrepo --branch main --manual-integration
+az webapp deployment source config --name $webappname --resource-group $resourcegroup --repo-url $gitrepo --branch master --manual-integration
 
 ```
 
