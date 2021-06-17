@@ -12,6 +12,7 @@
 # If you change the storageaccount, you have to change the appsettings.json of the Server application 
 resourcegroup=simodemo01-rg
 storageaccount=simodemo01sa
+serviceplan=simodemo01-asp
 webappname=simodemo01wa
 gitrepo=https://github.com/scolapicchioni/BlazorBlobStorage
 
@@ -43,10 +44,10 @@ az storage container create --account-name $storageaccount --name demo --auth-mo
 
 ```
 # Create an App Service plan in `FREE` tier.
-az appservice plan create --name $webappname --resource-group $resourcegroup --sku FREE
+az appservice plan create --name $serviceplan --resource-group $resourcegroup --sku FREE
 
 # Create a web app.
-az webapp create --name $webappname --resource-group $resourcegroup --plan $webappname
+az webapp create --name $webappname --resource-group $resourcegroup --plan $serviceplan
 
 # Deploy code from a public GitHub repository. 
 az webapp deployment source config --name $webappname --resource-group $resourcegroup --repo-url $gitrepo --branch master --manual-integration
